@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Numerologia Cabalística — Calculadora Completa</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta name="description" content="Calculadora de numerologia cabalística com pirâmide invertida, número de expressão, motivação, destino, prosperidade e simulador de nome." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold:    #C9A84C;
+  --gold-lt: #E8D49A;
+  --gold-dk: #8B6914;
+  --purple:  #3C3489;
+  --purple-lt:#EEEDFE;
+  --purple-md:#AFA9EC;
+  --night:   #0D0B1A;
+  --night2:  #161228;
+  --night3:  #1E1836;
+  --night4:  #2A2348;
+  --text:    #E8E4F0;
+  --text-sec:#9990B8;
+  --border:  rgba(201,168,76,0.18);
+  --red:     #E24B4A;
+  --red-lt:  #FCEBEB;
+  --green:   #3B6D11;
+  --green-lt:#EAF3DE;
+  --green-md:#9FE1CB;
+  --teal:    #0F6E56;
+  --teal-lt: #E1F5EE;
+  --amber:   #854F0B;
+  --amber-lt:#FAEEDA;
+  --amber-md:#FAC775;
+  --radius:  10px;
+  --radius-lg:14px;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--night);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+header {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  background: linear-gradient(180deg, var(--night2) 0%, var(--night) 100%);
+  border-bottom: 0.5px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.star-row { font-size: 18px; letter-spacing: 8px; color: var(--gold); opacity: 0.6; margin-bottom: 1rem; }
+header h1 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+header p {
+  font-size: 14px;
+  color: var(--text-sec);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ===== LAYOUT ===== */
+.page { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+/* ===== INPUTS ===== */
+.input-section { margin-bottom: 2rem; }
+.field { margin-bottom: 1rem; }
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.field input {
+  width: 100%;
+  background: var(--night3);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  padding: 12px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.field input:focus { border-color: var(--gold); }
+.field input::placeholder { color: var(--text-sec); opacity: 0.6; }
+.calc-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold-dk), var(--gold));
+  color: var(--night);
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.calc-btn:hover { opacity: 0.92; }
+.calc-btn:active { transform: scale(0.99); }
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.tab {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--text-sec);
+  transition: background 0.15s, color 0.15s;
+  text-align: center;
+}
+.tab.active {
+  background: var(--night3);
+  color: var(--gold);
+}
+.tab:hover:not(.active) { color: var(--text); }
+
+/* ===== CARDS ===== */
+.info-card {
+  background: var(--night3);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.info-card.purple { border-color: var(--purple-md); background: rgba(60,52,137,0.2); }
+.info-card.teal   { border-color: var(--green-md);  background: rgba(15,110,86,0.15); }
+.info-card.amber  { border-color: var(--amber-md);  background: rgba(133,79,11,0.2); }
+.info-card.green  { border-color: #C0DD97;           background: rgba(59,109,17,0.15); }
+.info-num {
+  font-family: 'Cinzel', serif;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 1;
+  min-width: 60px;
+  text-align: center;
+}
+.info-num.purple { color: #8B84E0; }
+.info-num.teal   { color: #5EC9A8; }
+.info-num.amber  { color: var(--amber-md); }
+.info-num.green  { color: #8EC95A; }
+.mestre-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 2px 7px;
+  margin-top: 4px;
+}
+.mb-purple { background: rgba(174,169,236,0.2); color: var(--purple-md); border: 0.5px solid var(--purple-md); }
+.mb-teal   { background: rgba(94,201,168,0.15); color: #5EC9A8; border: 0.5px solid #5EC9A8; }
+.mb-amber  { background: rgba(250,199,117,0.15); color: var(--amber-md); border: 0.5px solid var(--amber-md); }
+.mb-green  { background: rgba(142,201,90,0.15);  color: #8EC95A; border: 0.5px solid #8EC95A; }
+.info-body { flex: 1; }
+.info-title { font-size: 11px; color: var(--text-sec); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+.info-label { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.info-calc  { font-size: 11px; color: var(--text-sec); margin-top: 5px; font-family: 'Courier New', monospace; word-break: break-all; }
+
+/* ===== PYRAMID ===== */
+.pyramid { display: flex; flex-direction: column; align-items: center; gap: 0px; margin-bottom: 1.5rem; padding: 4px; }
+.pyr-row { display: flex; gap: 2px; justify-content: center; flex-wrap: nowrap; }
+.pyr-cell {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: none;
+}
+.pyr-cell:hover { opacity: 0.7; }
+.pyr-cell .char { font-size: 11px; font-weight: 500; color: var(--text); line-height: 1; }
+.pyr-cell .num  { display: none; }
+.pyr-cell.negative .char { color: #FF8080 !important; font-weight: 800 !important; }
+.pyr-cell.vogal .char { color: var(--amber-md) !important; }
+.pyr-cell.negative.vogal .char { color: #FF8080 !important; }
+
+/* ===== ALERTS ===== */
+.alert {
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 1rem;
+  font-size: 13px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.alert-neg  { background: rgba(226,75,74,0.12);  border: 0.5px solid rgba(226,75,74,0.4);  color: #FF8080; }
+.alert-pos  { background: rgba(142,201,90,0.12);  border: 0.5px solid rgba(142,201,90,0.4); color: #8EC95A; }
+
+/* ===== LEGEND ===== */
+.legend { display: flex; gap: 14px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-sec); }
+.legend-dot { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+
+/* ===== METRICS ===== */
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.metric { background: var(--night3); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px; }
+.metric-label { font-size: 11px; color: var(--text-sec); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+.metric-value { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 500; color: var(--gold); }
+.metric-sub { font-size: 11px; color: var(--text-sec); margin-top: 2px; }
+
+/* ===== MEANING CARDS ===== */
+.meaning {
+  background: var(--night3);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.meaning h3 { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 8px; letter-spacing: 0.04em; }
+.meaning p  { font-size: 13px; color: var(--text-sec); line-height: 1.7; }
+.meaning.purple { border-color: rgba(174,169,236,0.3); background: rgba(60,52,137,0.15); }
+.meaning.purple h3 { color: #8B84E0; }
+.meaning.teal   { border-color: rgba(94,201,168,0.3);  background: rgba(15,110,86,0.12); }
+.meaning.teal h3 { color: #5EC9A8; }
+.meaning.amber  { border-color: rgba(250,199,117,0.3); background: rgba(133,79,11,0.15); }
+.meaning.amber h3 { color: var(--amber-md); }
+.meaning.green  { border-color: rgba(142,201,90,0.3);  background: rgba(59,109,17,0.12); }
+.meaning.green h3 { color: #8EC95A; }
+.neg-meaning { background: rgba(226,75,74,0.1); border: 0.5px solid rgba(226,75,74,0.3); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px; }
+.neg-meaning h3 { font-size: 13px; font-weight: 500; margin-bottom: 8px; color: #FF8080; }
+.neg-meaning p  { font-size: 13px; color: rgba(255,128,128,0.8); line-height: 1.6; }
+.prosp-list { margin-top: 8px; padding-left: 0; list-style: none; }
+.prosp-list li { font-size: 13px; color: var(--text-sec); padding: 4px 0 4px 20px; position: relative; line-height: 1.5; }
+.prosp-list li::before { content: '→'; position: absolute; left: 0; color: #8EC95A; font-weight: 500; }
+
+/* ===== SIMULATOR ===== */
+.sim-input-row { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.sim-input-row input { flex: 1; min-width: 200px; background: var(--night3); border: 0.5px solid var(--border); border-radius: var(--radius); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; padding: 12px 16px; outline: none; transition: border-color 0.2s; }
+.sim-input-row input:focus { border-color: var(--gold); }
+.sim-input-row input::placeholder { color: var(--text-sec); opacity: 0.6; }
+.sim-btn { padding: 12px 20px; font-size: 13px; background: linear-gradient(135deg, var(--gold-dk), var(--gold)); color: var(--night); font-family: 'Cinzel', serif; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; white-space: nowrap; }
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.compare-col { background: var(--night3); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem; }
+.compare-col.highlight { border-color: rgba(142,201,90,0.4); background: rgba(59,109,17,0.1); }
+.col-title { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 500; color: var(--gold); margin-bottom: 3px; }
+.col-sub { font-size: 11px; color: var(--text-sec); margin-bottom: 10px; }
+.num-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.num-chip { font-size: 11px; background: var(--night4); border: 0.5px solid var(--border); border-radius: 6px; padding: 4px 8px; color: var(--text-sec); }
+.num-chip span { font-weight: 600; color: var(--text); }
+.num-chip.changed { border-color: rgba(94,201,168,0.5); background: rgba(15,110,86,0.15); }
+.num-chip.changed span { color: #5EC9A8; }
+.badge { display: inline-block; font-size: 10px; font-weight: 500; border-radius: 4px; padding: 2px 8px; margin-bottom: 8px; }
+.badge-red   { background: rgba(226,75,74,0.15); color: #FF8080; border: 0.5px solid rgba(226,75,74,0.4); }
+.badge-green { background: rgba(142,201,90,0.15); color: #8EC95A; border: 0.5px solid rgba(142,201,90,0.4); }
+.badge-neutral { background: var(--night4); color: var(--text-sec); border: 0.5px solid var(--border); }
+
+/* ===== TABLE ===== */
+.table-wrap { overflow-x: auto; }
+table.ref-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.ref-table th { text-align: left; padding: 8px 12px; color: var(--gold); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 0.5px solid var(--border); font-weight: 500; }
+table.ref-table td { padding: 10px 12px; border-bottom: 0.5px solid rgba(201,168,76,0.08); color: var(--text-sec); }
+table.ref-table tr:last-child td { border-bottom: none; }
+table.ref-table td:first-child { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); font-weight: 500; }
+.accent-note { font-size: 12px; color: var(--text-sec); background: var(--night3); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; margin-top: 1rem; line-height: 1.8; }
+.accent-note strong { color: var(--gold); font-weight: 500; }
+
+/* ===== EMPTY ===== */
+.empty { text-align: center; padding: 3rem 1rem; color: var(--text-sec); font-size: 14px; }
+.empty .icon { font-size: 32px; margin-bottom: 10px; opacity: 0.4; }
+
+/* ===== FOOTER ===== */
+footer { text-align: center; padding: 2rem 1rem; border-top: 0.5px solid var(--border); color: var(--text-sec); font-size: 12px; }
+footer span { color: var(--gold); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 520px) {
+  .compare-grid { grid-template-columns: 1fr; }
+  .pyr-cell .char { font-size: 9px; }
+  header h1 { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="star-row">✦ ✦ ✦</div>
+  <h1>Numerologia Cabalística</h1>
+  <p>Pirâmide invertida · Expressão · Motivação · Destino · Prosperidade · Simulador de Nome</p>
+</header>
+
+<div class="page">
+  <div class="input-section">
+    <div class="field">
+      <label>Nome Completo</label>
+      <input type="text" id="nameInput" placeholder="Ex: Ayrton Senna" />
+    </div>
+    <div class="field">
+      <label>Data de Nascimento</label>
+      <input type="date" id="dateInput" />
+    </div>
+    <button class="calc-btn" onclick="calculate()">✦ Calcular</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('piramide',this)">Pirâmide</button>
+    <button class="tab" onclick="showTab('resultado',this)">Resultado</button>
+    <button class="tab" onclick="showTab('simulador',this)">Simulador</button>
+    <button class="tab" onclick="showTab('tabela',this)">Tabela</button>
+  </div>
+
+  <div id="tab-piramide">
+    <div id="pyramidOut"><div class="empty"><div class="icon">✦</div>Preencha o nome e a data de nascimento</div></div>
+  </div>
+  <div id="tab-resultado" style="display:none">
+    <div id="resultOut"><div class="empty"><div class="icon">✦</div>Preencha o nome e a data de nascimento</div></div>
+  </div>
+  <div id="tab-simulador" style="display:none">
+    <div class="sim-input-row">
+      <input type="text" id="simInput" placeholder="Digite um nome alternativo para simular..." />
+      <button class="sim-btn" onclick="simular()">Simular →</button>
+    </div>
+    <div id="simOut"><div class="empty"><div class="icon">✦</div>Digite um nome alternativo e clique em Simular</div></div>
+  </div>
+  <div id="tab-tabela" style="display:none">
+    <div class="meaning">
+      <h3>Tabela Cabalística — 1 a 8 (sem 9)</h3>
+      <div class="table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Valor</th><th>Letras</th></tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <div class="accent-note">
+        <strong>Vogais:</strong> A · E · I · O · U e acentuadas<br>
+        <strong>Acentos:</strong> Agudo (´) +2 · Grave (`) ×2 · Til (~) +3 · Circunflexo (^) +7 · Ç = 6<br>
+        <strong>Números Mestres:</strong> 11 · 22 · 33 — não se reduzem<br>
+        <strong>Na Cabala o 9 não existe</strong> — sistema vai de 1 a 8<br>
+        <strong>Prosperidade</strong> = 8 − número reduzido da data de nascimento
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Numerologia Cabalística · Sistema <span>1–8</span> · Números Mestres <span>11 · 22 · 33</span>
+</footer>
+
+<script>
+const BASE={A:1,I:1,Q:1,J:1,Y:1,B:2,K:2,R:2,C:3,G:3,L:3,S:3,D:4,M:4,T:4,E:5,H:5,N:5,U:6,V:6,W:6,X:6,O:7,Z:7,F:8,P:8};
+const PLAIN_TABLE={1:['A','I','Q','J','Y'],2:['B','K','R'],3:['C','G','L','S'],4:['D','M','T'],5:['E','H','N'],6:['U','V','W','X','Ç'],7:['O','Z'],8:['F','P']};
+const BASE_OF={'Á':'A','À':'A','Â':'A','Ã':'A','É':'E','È':'E','Ê':'E','Í':'I','Ì':'I','Î':'I','Ó':'O','Ò':'O','Ô':'O','Õ':'O','Ú':'U','Ù':'U','Û':'U','Ñ':'N'};
+const ACCENT_TYPE={'Á':'agudo','É':'agudo','Í':'agudo','Ó':'agudo','Ú':'agudo','À':'grave','È':'grave','Ì':'grave','Ò':'grave','Ù':'grave','Â':'circ','Ê':'circ','Î':'circ','Ô':'circ','Û':'circ','Ã':'til','Õ':'til','Ñ':'til'};
+const MASTERS=new Set([11,22,33]);
+const VOGAIS_BASE=new Set(['A','E','I','O','U']);
+function isVogal(ch){const c=ch.toUpperCase();return VOGAIS_BASE.has(c)||(BASE_OF[c]&&VOGAIS_BASE.has(BASE_OF[c]));}
+function reduceKabbalah(n){while(n>8){let s=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(s===n)break;n=s;if(n===9){n=8;break;}}return n;}
+function calcStepsMestre(total){const steps=[total];let n=total,prev=-1;while((n>8&&!MASTERS.has(n))&&n!==prev){prev=n;let s=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(s===n)break;n=s;if(n===9)n=8;steps.push(n);if(MASTERS.has(n))break;}return{total,final:steps[steps.length-1],steps,isMestre:MASTERS.has(steps[steps.length-1])};}
+function reduceSimple(n){while(n>8){let s=String(n).split('').reduce((a,b)=>a+parseInt(b),0);if(s===n)break;n=s;if(n===9){n=8;break;}}return n;}
+function letterValue(ch){const c=ch.toUpperCase();if(c==='Ç')return 6;if(BASE[c]!==undefined)return BASE[c];if(BASE_OF[c]){const base=BASE[BASE_OF[c]];if(base===undefined)return null;const type=ACCENT_TYPE[c];if(type==='agudo')return reduceKabbalah(base+2);if(type==='grave')return reduceKabbalah(base*2);if(type==='til')return reduceKabbalah(base+3);if(type==='circ')return reduceKabbalah(base+7);}return null;}
+function consecutiveNegIndices(row){const r=new Set();let i=0;while(i<row.length){let j=i+1;while(j<row.length&&row[j].v===row[i].v)j++;if(j-i>=3){for(let k=i;k<j;k++)r.add(k);}i=j;}return r;}
+function getNegNums(rows){const s=new Set();rows.forEach(row=>{consecutiveNegIndices(row).forEach(i=>s.add(row[i].v));});return s;}
+function stepsStr(r){return r.steps&&r.steps.length>1?' → '+r.steps.slice(1).join(' → '):'';}
+
+function analyzeNome(raw){
+  const filtered=raw.split('').filter(c=>c!==' ').map(c=>({c,v:letterValue(c),vogal:isVogal(c)})).filter(d=>d.v!==null);
+  if(!filtered.length)return null;
+  const vogalIdx=new Set();filtered.forEach((d,i)=>{if(d.vogal)vogalIdx.add(i);});
+  const rows=[filtered];
+  while(rows[rows.length-1].length>1){const prev=rows[rows.length-1],next=[];for(let i=0;i<prev.length-1;i++)next.push({v:reduceKabbalah(prev[i].v+prev[i+1].v)});rows.push(next);}
+  const apice=rows[rows.length-1][0].v;
+  const exp=calcStepsMestre(filtered.reduce((a,b)=>a+b.v,0));
+  const vogais=filtered.filter(d=>d.vogal);
+  const motiv=vogais.length?calcStepsMestre(vogais.reduce((a,b)=>a+b.v,0)):null;
+  if(motiv)motiv.vogaisList=vogais.map(d=>d.c+'='+d.v).join(' + ');
+  const negNums=getNegNums(rows);
+  return{filtered,rows,vogalIdx,apice,exp,motiv,negNums,hasNeg:negNums.size>0};
+}
+function calcDestino(dateStr){const[y,m,d]=dateStr.split('-').map(Number);const total=(String(d)+String(m)+String(y)).split('').map(Number).reduce((a,b)=>a+b,0);const result=calcStepsMestre(total);const dd=String(d).padStart(2,'0'),mm=String(m).padStart(2,'0');result.dateFormatted=`${dd}/${mm}/${y}`;result.breakdown=`${dd}/${mm}/${y}`;result.simpleReduced=reduceSimple(total);return result;}
+function calcProsp(dest){const s=dest.simpleReduced;return{final:s===8?8:8-s,formula:`8 − ${s} = ${s===8?8:8-s}`};}
+
+const EXP_MEANING={1:'Liderança e pioneirismo — nasceu para liderar e abrir caminhos.',2:'Diplomacia e sensibilidade — expressão harmoniosa e mediadora.',3:'Criatividade e comunicação — encanta e inspira ao redor.',4:'Organização e trabalho — construção sólida e confiabilidade.',5:'Liberdade e versatilidade — mudança, curiosidade e adaptação.',6:'Amor e responsabilidade — protetor, cuidadoso e familiar.',7:'Espiritualidade e sabedoria — busca interior e conhecimento profundo.',8:'Poder e realização — ambicioso e orientado para conquistas.',11:'Número Mestre — intuição elevada e capacidade de iluminar espiritualmente.',22:'Número Mestre — o grande construtor, une visão com realização prática.',33:'Número Mestre — amor incondicional e vocação para servir a humanidade.'};
+const DEST_MEANING={1:'O destino pede liderança. Missão de ser pioneiro com autonomia e coragem.',2:'O destino pede cooperação. Missão de trabalhar em equipe com paciência.',3:'O destino pede expressão. Missão de desenvolver criatividade e alegria.',4:'O destino pede construção. Missão de criar bases sólidas com disciplina.',5:'O destino pede liberdade. Missão de abraçar mudanças e experiências.',6:'O destino pede amor. Missão de servir, proteger e harmonizar.',7:'O destino pede sabedoria. Missão de buscar autoconhecimento espiritual.',8:'O destino pede poder. Missão de conquistar com ética e responsabilidade.',11:'Número Mestre — missão elevada de iluminar e guiar espiritualmente.',22:'Número Mestre — missão de construir algo grandioso para o coletivo.',33:'Número Mestre — missão de curar e elevar a consciência ao redor.'};
+const MOTIV_MEANING={1:'Motivado pelo desejo de liderar, ser reconhecido e agir com independência.',2:'Motivado pela harmonia, pelas parcerias e pelo desejo de ser amado.',3:'Motivado pela expressão, pela alegria e pelo desejo de criar e encantar.',4:'Motivado pela segurança, pela ordem e pelo desejo de construir.',5:'Motivado pela liberdade, pela aventura e por novas experiências.',6:'Motivado pelo amor, pela família e pelo desejo de cuidar.',7:'Motivado pela busca espiritual e pelos mistérios da vida.',8:'Motivado pelo poder, pelo sucesso e pelo desejo de conquistar.',11:'Número Mestre — motivado por missão espiritual elevada.',22:'Número Mestre — motivado por construir algo grandioso.',33:'Número Mestre — motivado pelo amor incondicional.'};
+const PROSP_ATITUDES={1:{titulo:'Para prosperar, adote atitudes de:',itens:['Liderança — tome a frente, não espere ser convidado','Pioneirismo — abra caminhos novos sem medo','Independência — confie nas suas próprias decisões','Coragem para iniciar — dê o primeiro passo','Originalidade — valorize o que só você tem']},2:{titulo:'Para prosperar, adote atitudes de:',itens:['Cooperação — construa junto, não sozinho','Diplomacia — saiba ouvir e ceder','Paciência — respeite o tempo dos processos','Parceria — abra-se para receber apoio','Sensibilidade — use a intuição como guia']},3:{titulo:'Para prosperar, adote atitudes de:',itens:['Criatividade — expresse seus talentos sem medo','Comunicação — fale, escreva, mostre o que sabe','Alegria — cultive o otimismo como força','Sociabilidade — expanda suas conexões','Expressão autêntica — seja você mesmo']},4:{titulo:'Para prosperar, adote atitudes de:',itens:['Disciplina — crie rotinas e mantenha o foco','Organização — planeje antes de agir','Perseverança — continue mesmo quando difícil','Responsabilidade — cumpra o que promete','Construção sólida — prefira o duradouro']},5:{titulo:'Para prosperar, adote atitudes de:',itens:['Adaptabilidade — abrace as mudanças','Versatilidade — atue em diferentes frentes','Ousadia — arrisque-se em novas experiências','Flexibilidade — mude de rota sem apego','Abertura — explore o novo com entusiasmo']},6:{titulo:'Para prosperar, adote atitudes de:',itens:['Serviço — ajude genuinamente','Amor e cuidado — nutra seus relacionamentos','Responsabilidade coletiva — pense no bem de todos','Harmonia — crie ambientes de paz','Generosidade — o que doa com amor retorna']},7:{titulo:'Para prosperar, adote atitudes de:',itens:['Autoconhecimento — aprofunde-se em quem você é','Espiritualidade — conecte-se com algo maior','Análise e reflexão — pense com profundidade','Busca pelo saber — invista em conhecimento','Fé — confie no processo']},8:{titulo:'Você já vibra na frequência da prosperidade!',itens:['Seu número já é 8 — o teto cabalístico','Continue exercendo poder com ética','Use sua realização para o bem coletivo','Equilíbrio entre poder material e espiritual','Você é canal natural de abundância']}};
+const NEG_MEANING={1:'Três 1s consecutivos: excesso de ego, teimosia, autoritarismo.',2:'Três 2s consecutivos: hipersensibilidade e dependência emocional.',3:'Três 3s consecutivos: dispersão, superficialidade, falta de foco.',4:'Três 4s consecutivos: rigidez, medo de mudanças, obsessão por controle.',5:'Três 5s consecutivos: instabilidade crônica, ruptura abrupta.',6:'Três 6s consecutivos: possessividade e excesso de sacrifício.',7:'Três 7s consecutivos: isolamento excessivo e bloqueio espiritual.',8:'Três 8s consecutivos: ganância e abuso de poder.'};
+const MEANING_DETAIL={1:'Liderança e iniciativa.',2:'Cooperação e diplomacia.',3:'Criatividade e comunicação.',4:'Estabilidade e disciplina.',5:'Liberdade e mudança.',6:'Amor e responsabilidade.',7:'Espiritualidade e sabedoria.',8:'Poder e conquista — número máximo cabalístico.'};
+
+function renderCard(num,isMestre,colorKey,title,label,calc){
+  const bmap={purple:'purple',teal:'teal',amber:'amber',green:'green'};
+  const mmap={purple:'mb-purple',teal:'mb-teal',amber:'mb-amber',green:'mb-green'};
+  return `<div class="info-card ${bmap[colorKey]||''}">
+    <div><div class="info-num ${colorKey}">${num}</div>${isMestre?`<div style="text-align:center"><span class="mestre-badge ${mmap[colorKey]}">Nº Mestre</span></div>`:''}</div>
+    <div class="info-body"><div class="info-title">${title}</div><div class="info-label">${label}</div><div class="info-calc">${calc}</div></div>
+  </div>`;
+}
+
+function renderPyrDOM(rows,filtered,vogalIdx,small){
+  const pyr=document.createElement('div');pyr.className='pyramid';
+  const sz=small?8:12;
+  const fs=small?5:6;
+  rows.forEach((row,ri)=>{
+    const negIdx=consecutiveNegIndices(row);
+    const rowDiv=document.createElement('div');rowDiv.className='pyr-row';
+    row.forEach((d,ci)=>{
+      const isNeg=negIdx.has(ci),isVog=ri===0&&vogalIdx&&vogalIdx.has(ci);
+      const cell=document.createElement('div');
+      cell.className='pyr-cell'+(isNeg?' negative':'')+(isVog&&!isNeg?' vogal':'');
+      cell.setAttribute('style','background:transparent;border:none;padding:0;margin:0;');
+      if(ri===0){cell.innerHTML=`<span class="char" style="font-size:11px;font-weight:500;line-height:1.2;">${filtered[ci].c}<sub style="font-size:7px;opacity:0.6;">${d.v}</sub></span>`;}
+      else{cell.innerHTML=`<span class="char" style="font-size:11px;font-weight:500;line-height:1.2;">${d.v}</span>`;}
+      rowDiv.appendChild(cell);
+    });
+    pyr.appendChild(rowDiv);
+  });
+  return pyr;
+}
+
+function renderPyramid(ana,dest,prosp){
+  const wrap=document.getElementById('pyramidOut');wrap.innerHTML='';
+  if(ana){
+    if(ana.exp)wrap.innerHTML+=renderCard(ana.exp.final,ana.exp.isMestre,'purple','Número de Expressão',(EXP_MEANING[ana.exp.final]||'').split('—')[0].trim(),'Soma: '+ana.exp.total+stepsStr(ana.exp));
+    if(ana.motiv)wrap.innerHTML+=renderCard(ana.motiv.final,ana.motiv.isMestre,'amber','Número de Motivação',(MOTIV_MEANING[ana.motiv.final]||'').substring(0,60)+'…','Vogais: '+ana.motiv.vogaisList+' = '+ana.motiv.total+stepsStr(ana.motiv));
+  }
+  if(dest)wrap.innerHTML+=renderCard(dest.final,dest.isMestre,'teal','Número de Destino',(DEST_MEANING[dest.final]||'').split('.')[0],dest.breakdown+' → '+dest.total+stepsStr(dest));
+  if(prosp)wrap.innerHTML+=renderCard(prosp.final,false,'green','Número de Prosperidade','O que você precisa ser para prosperar',prosp.formula);
+  if(ana){
+    if(ana.hasNeg){const nums=[...ana.negNums].join(', ');wrap.innerHTML+=`<div class="alert alert-neg">⚠ Energia negativa — número${ana.negNums.size>1?'s':''} <strong>${nums}</strong> com 3 ou mais consecutivos na pirâmide.</div>`;}
+    wrap.innerHTML+=`<div class="legend"><div class="legend-item"><div class="legend-dot" style="background:var(--night3);border:0.5px solid var(--border)"></div>Consoante</div><div class="legend-item"><div class="legend-dot" style="background:rgba(250,199,117,0.1);border:0.5px solid var(--amber-md)"></div>Vogal</div><div class="legend-item"><div class="legend-dot" style="background:rgba(226,75,74,0.15);border:0.5px solid var(--red)"></div>3+ consecutivos iguais</div></div>`;
+    wrap.appendChild(renderPyrDOM(ana.rows,ana.filtered,ana.vogalIdx,false));
+  }
+}
+
+function renderResult(ana,dest,prosp){
+  const out=document.getElementById('resultOut');let html='';
+  if(ana){
+    if(ana.exp)html+=renderCard(ana.exp.final,ana.exp.isMestre,'purple','Número de Expressão',(EXP_MEANING[ana.exp.final]||'').split('—')[0].trim(),'Soma: '+ana.exp.total+stepsStr(ana.exp));
+    if(ana.motiv)html+=renderCard(ana.motiv.final,ana.motiv.isMestre,'amber','Número de Motivação',(MOTIV_MEANING[ana.motiv.final]||'').substring(0,60)+'…','Vogais: '+ana.motiv.vogaisList+' = '+ana.motiv.total+stepsStr(ana.motiv));
+  }
+  if(dest)html+=renderCard(dest.final,dest.isMestre,'teal','Número de Destino',(DEST_MEANING[dest.final]||'').split('.')[0],dest.breakdown+' → '+dest.total+stepsStr(dest));
+  if(prosp)html+=renderCard(prosp.final,false,'green','Número de Prosperidade','O que você precisa ser para prosperar',prosp.formula);
+  html+='<div class="results-grid">';
+  if(ana){
+    if(ana.apice)html+=`<div class="metric"><div class="metric-label">Ápice</div><div class="metric-value">${ana.apice}</div><div class="metric-sub">Pirâmide</div></div>`;
+    if(ana.exp)html+=`<div class="metric"><div class="metric-label">Expressão</div><div class="metric-value" style="color:#8B84E0">${ana.exp.final}</div><div class="metric-sub">${ana.exp.isMestre?'Nº Mestre':'Todas as letras'}</div></div>`;
+    if(ana.motiv)html+=`<div class="metric"><div class="metric-label">Motivação</div><div class="metric-value" style="color:var(--amber-md)">${ana.motiv.final}</div><div class="metric-sub">${ana.motiv.isMestre?'Nº Mestre':'Vogais'}</div></div>`;
+    if(ana.hasNeg)html+=`<div class="metric"><div class="metric-label">Bloqueios</div><div class="metric-value" style="color:#FF8080">${ana.negNums.size}</div><div class="metric-sub">Energias negativas</div></div>`;
+  }
+  if(dest)html+=`<div class="metric"><div class="metric-label">Destino</div><div class="metric-value" style="color:#5EC9A8">${dest.final}</div><div class="metric-sub">${dest.isMestre?'Nº Mestre':'Data nasc.'}</div></div>`;
+  if(prosp)html+=`<div class="metric"><div class="metric-label">Prosperidade</div><div class="metric-value" style="color:#8EC95A">${prosp.final}</div><div class="metric-sub">Complemento p/ 8</div></div>`;
+  html+='</div>';
+  if(ana&&ana.exp)html+=`<div class="meaning purple"><h3>Expressão ${ana.exp.final}${ana.exp.isMestre?' — Nº Mestre':''}</h3><p>${EXP_MEANING[ana.exp.final]||''}</p></div>`;
+  if(ana&&ana.motiv)html+=`<div class="meaning amber"><h3>Motivação ${ana.motiv.final}${ana.motiv.isMestre?' — Nº Mestre':''}</h3><p>${MOTIV_MEANING[ana.motiv.final]||''}</p></div>`;
+  if(dest)html+=`<div class="meaning teal"><h3>Destino ${dest.final}${dest.isMestre?' — Nº Mestre':''}</h3><p>${DEST_MEANING[dest.final]||''}</p></div>`;
+  if(prosp){const pa=PROSP_ATITUDES[prosp.final];if(pa){html+=`<div class="meaning green"><h3>Prosperidade ${prosp.final} — ${pa.titulo}</h3><ul class="prosp-list">${pa.itens.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;}}
+  if(ana&&ana.apice)html+=`<div class="meaning"><h3>Ápice da Pirâmide — ${ana.apice}</h3><p>${MEANING_DETAIL[ana.apice]||''}</p></div>`;
+  if(ana&&ana.hasNeg){let nb='';ana.negNums.forEach(n=>{nb+=`<div class="neg-meaning"><h3>⚠ Número ${n} — Energia Negativa</h3><p>${NEG_MEANING[n]||''}</p></div>`;});html+=nb;}
+  out.innerHTML=html||'<div class="empty"><div class="icon">✦</div>Preencha os dados acima</div>';
+}
+
+function calculate(){
+  const raw=document.getElementById('nameInput').value.trim();
+  const dateStr=document.getElementById('dateInput').value;
+  if(!raw&&!dateStr)return;
+  const ana=raw?analyzeNome(raw):null;
+  const dest=dateStr?calcDestino(dateStr):null;
+  const prosp=dest?calcProsp(dest):null;
+  renderPyramid(ana,dest,prosp);
+  renderResult(ana,dest,prosp);
+  if(ana&&!document.getElementById('simInput').value)document.getElementById('simInput').value=raw;
+}
+
+function simular(){
+  const simRaw=document.getElementById('simInput').value.trim();
+  const origRaw=document.getElementById('nameInput').value.trim();
+  if(!simRaw)return;
+  const orig=origRaw?analyzeNome(origRaw):null;
+  const sim=analyzeNome(simRaw);
+  if(!sim){document.getElementById('simOut').innerHTML='<div class="empty"><div class="icon">✦</div>Nome inválido</div>';return;}
+  const out=document.getElementById('simOut');out.innerHTML='';
+  if(orig){
+    if(orig.hasNeg&&!sim.hasNeg)out.innerHTML+=`<div class="alert alert-pos">✓ O nome alternativo elimina as energias negativas!</div>`;
+    else if(!orig.hasNeg&&sim.hasNeg)out.innerHTML+=`<div class="alert alert-neg">⚠ O nome alternativo cria novas energias negativas.</div>`;
+    else if(orig.hasNeg&&sim.hasNeg&&orig.negNums.size>sim.negNums.size)out.innerHTML+=`<div class="alert alert-pos">↓ Redução de bloqueios: de ${[...orig.negNums].join(',')} para ${[...sim.negNums].join(',')}.</div>`;
+    else if(!orig.hasNeg&&!sim.hasNeg)out.innerHTML+=`<div class="alert alert-pos">✓ Nenhum dos nomes apresenta energias negativas.</div>`;
+    else if(orig.hasNeg&&sim.hasNeg)out.innerHTML+=`<div class="alert alert-neg">⚠ Ainda há energias negativas: ${[...sim.negNums].join(',')}.</div>`;
+  }
+  const grid=document.createElement('div');grid.className='compare-grid';
+  function makeCol(name,ana,ref,isNew){
+    const col=document.createElement('div');
+    col.className='compare-col'+(isNew?' highlight':'');
+    const hasneg=ana&&ana.hasNeg;
+    const badgeCls=hasneg?'badge-red':(!ana?'badge-neutral':'badge-green');
+    const badgeTxt=hasneg?'Energia negativa':(!ana?'—':'Energia equilibrada');
+    col.innerHTML=`<div class="col-title">${name}</div><div class="col-sub">${isNew?'Nome alternativo':'Nome original'}</div><span class="badge ${badgeCls}">${badgeTxt}</span>`;
+    if(ana){
+      const expCh=ref&&ana.exp.final!==ref.exp.final;
+      const motCh=ref&&ana.motiv&&ref.motiv&&ana.motiv.final!==ref.motiv.final;
+      const apCh=ref&&ana.apice!==ref.apice;
+      let chips=`<div class="num-row">`;
+      chips+=`<div class="num-chip${expCh?' changed':''}">Expressão <span>${ana.exp.final}</span>${expCh?` (era ${ref.exp.final})`:''}</div>`;
+      if(ana.motiv)chips+=`<div class="num-chip${motCh?' changed':''}">Motivação <span>${ana.motiv.final}</span>${motCh?` (era ${ref.motiv.final})`:''}</div>`;
+      chips+=`<div class="num-chip${apCh?' changed':''}">Ápice <span>${ana.apice}</span>${apCh?` (era ${ref.apice})`:''}</div>`;
+      if(ana.hasNeg)chips+=`<div class="num-chip" style="border-color:rgba(226,75,74,0.4)"><span style="color:#FF8080">Bloqueio ${[...ana.negNums].join(',')}</span></div>`;
+      chips+='</div>';
+      col.innerHTML+=chips;
+      col.appendChild(renderPyrDOM(ana.rows,ana.filtered,ana.vogalIdx,true));
+    }else{col.innerHTML+='<p style="font-size:13px;color:var(--text-sec);margin-top:8px">Calcule um nome primeiro.</p>';}
+    return col;
+  }
+  grid.appendChild(makeCol(origRaw||'(sem nome)',orig,null,false));
+  grid.appendChild(makeCol(simRaw,sim,orig,true));
+  out.appendChild(grid);
+  const changes=[];
+  if(orig){
+    if(orig.exp&&sim.exp.final!==orig.exp.final)changes.push(`Expressão: <strong>${orig.exp.final}</strong> → <strong>${sim.exp.final}</strong> — ${EXP_MEANING[sim.exp.final]||''}`);
+    if(orig.motiv&&sim.motiv&&sim.motiv.final!==orig.motiv.final)changes.push(`Motivação: <strong>${orig.motiv.final}</strong> → <strong>${sim.motiv.final}</strong>`);
+    if(sim.apice!==orig.apice)changes.push(`Ápice: <strong>${orig.apice}</strong> → <strong>${sim.apice}</strong>`);
+  }
+  if(changes.length){const r=document.createElement('div');r.className='meaning';r.innerHTML=`<h3>O que muda com o novo nome</h3>${changes.map(c=>`<p style="margin-bottom:6px">→ ${c}</p>`).join('')}`;out.appendChild(r);}
+}
+
+function buildTable(){
+  const tb=document.getElementById('tableBody');
+  Object.entries(PLAIN_TABLE).forEach(([v,letters])=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${v}</td><td>${letters.join(' · ')}</td>`;tb.appendChild(tr);});
+}
+function showTab(id,el){
+  ['piramide','resultado','simulador','tabela'].forEach(t=>{document.getElementById('tab-'+t).style.display=t===id?'':'none';});
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+}
+buildTable();
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')calculate();});
+document.getElementById('simInput').addEventListener('keydown',e=>{if(e.key==='Enter')simular();});
+</script>
+</body>
+</html>
